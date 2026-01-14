@@ -4,8 +4,10 @@ import { connectMongoose } from "./app/lib/connectMongoose";
 import { logger } from "./app/utils/logger";
 import { createServer } from "http";
 import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
+import { initWebsocket } from "./app/modules/notification/notification.websocket";
 
 export const httpServer = createServer(app);
+initWebsocket(httpServer);
 
 const startServer = async () => {
   try {

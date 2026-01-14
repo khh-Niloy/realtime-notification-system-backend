@@ -1,21 +1,12 @@
-import { Router } from "express";
-
-import { validateSchema } from "../../middleware/zodValidate";
 import { notificationController } from "./notification.controller";
+import { userRole } from "../user/user.interface";
+import { roleBasedProtection } from "../../middleware/roleBasedProtection";
+import { Router } from "express";
 
 export const notificationRoutes = Router();
 
-// Protected routes
-// userRoutes.get(
-//   "/profile",
-//   roleBasedProtection(...Object.values(Roles)),
-//   userController.getProfile
-// );
-
-// userRoutes.patch(
-//   "/profile",
-//   roleBasedProtection(...Object.values(Roles)),
-//   profileUpload.single('image'),
-//   validateSchema(userUpdateZodSchema),
-//   userController.updateProfile
-// );
+notificationRoutes.get(
+  "/",
+  roleBasedProtection(...Object.values(userRole)),
+  notificationController.getAllNotifications
+);

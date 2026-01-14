@@ -1,13 +1,6 @@
 import { IUserNotification } from "./user.notification.interface";
 import { UserNotification } from "./user.notification.model";
 
-const createUserNotificationService = async (
-  data: Partial<IUserNotification>
-) => {
-  const notification = await UserNotification.create(data);
-  return notification;
-};
-
 const createManyUserNotificationService = async (
   data: Partial<IUserNotification>[]
 ) => {
@@ -15,7 +8,27 @@ const createManyUserNotificationService = async (
   return notifications;
 };
 
+const getUserNotificationsService = async (user: any) => {
+  const notifications = await UserNotification.find({
+    userId: user.userId,
+  })
+    .populate("notificationId")
+    .sort({ createdAt: -1 });
+  console.log(notifications);
+  return notifications;
+};
+
+const markAsReadService = async (id: string) => {
+  const result = await UserNotification.findByIdAndUpdate(
+    id,
+    { isRead: true },
+    { new: true }
+  );
+  return result;
+};
+
 export const userNotificationServices = {
-  createUserNotificationService,
   createManyUserNotificationService,
+  getUserNotificationsService,
+  markAsReadService,
 };
