@@ -41,8 +41,46 @@ const getAllNotifications = async (req: Request, res: Response) => {
   }
 };
 
+const deleteNotification = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await notificationServices.deleteNotificationService(
+      id as string
+    );
+    return responseManager.success(res, {
+      statusCode: 200,
+      success: true,
+      message: "Notification deleted successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    logger.error(error);
+    return responseManager.error(res, error, error.statusCode || 500);
+  }
+};
+
+const getNotificationById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await notificationServices.getNotificationByIdService(
+      id as string
+    );
+    return responseManager.success(res, {
+      statusCode: 200,
+      success: true,
+      message: "Notification fetched successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    logger.error(error);
+    return responseManager.error(res, error, error.statusCode || 500);
+  }
+};
+
 export const notificationController = {
   createAndSendNotification,
   updateNotification,
   getAllNotifications,
+  getNotificationById,
+  deleteNotification,
 };
