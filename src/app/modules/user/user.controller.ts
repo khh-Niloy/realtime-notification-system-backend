@@ -4,11 +4,9 @@ import { JwtPayload } from "jsonwebtoken";
 import { cookiesManagement } from "../../utils/cookiesManagement";
 import { responseManager } from "../../utils/responseManager";
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
+const createUser = async (req: Request, res: Response) => {
   try {
-    const userData = { ...req.body };
-
-    const newCreatedUser = await userServices.createUserService(userData);
+    const newCreatedUser = await userServices.createUserService(req.body);
     cookiesManagement.setCookie(
       res,
       newCreatedUser.accessToken,
