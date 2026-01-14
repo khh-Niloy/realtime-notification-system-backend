@@ -20,13 +20,26 @@ const updateNotificationService = async (data: Partial<INotification>) => {
   return notification;
 };
 
+const getNotificationByIdService = async (id: string) => {
+  const result = await Notification.findById(id);
+  return result;
+};
+
 const getAllNotificationsService = async () => {
   const notifications = await Notification.find().sort({ createdAt: -1 });
   return notifications;
+};
+
+const deleteNotificationService = async (id: string) => {
+  const result = await Notification.findByIdAndDelete(id);
+  await UserNotification.deleteMany({ notificationId: id });
+  return result;
 };
 
 export const notificationServices = {
   createAndSendNotificationService,
   updateNotificationService,
   getAllNotificationsService,
+  getNotificationByIdService,
+  deleteNotificationService,
 };

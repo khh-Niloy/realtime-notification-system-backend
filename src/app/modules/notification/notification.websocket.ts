@@ -60,10 +60,12 @@ export const initWebsocket = (httpServer: any) => {
 
       if (!updatedNotification) return;
 
-      websocketServer.to(`category-${data.category}`).emit("new-notification", {
-        notificationId: updatedNotification,
-        isRead: false,
-      });
+      websocketServer
+        .to(`category-${updatedNotification.category}`)
+        .emit("update-notification", {
+          updatedNotification: updatedNotification.toObject(),
+          isRead: false,
+        });
     });
 
     socket.on("disconnect", () => {
