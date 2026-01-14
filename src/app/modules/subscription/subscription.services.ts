@@ -5,6 +5,7 @@ const subscribeToCategory = async (
   userId: string,
   category: ISubscriptions
 ) => {
+  console.log(userId, category);
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     {
@@ -22,6 +23,7 @@ const unsubscribeFromCategory = async (
   userId: string,
   category: ISubscriptions
 ) => {
+  // Use $pull to remove the category from subscriptions array
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     {

@@ -6,9 +6,10 @@ import { subscriptionService } from "./subscription.services";
 const updateSubscription = async (req: Request, res: Response) => {
   try {
     const user = req.user;
+    console.log(user);
     const updatedSubscription = await subscriptionService.subscribeToCategory(
-      req.body,
-      user._id
+      user.userId,
+      req.body.category
     );
 
     responseManager.success(res, {
@@ -27,7 +28,10 @@ const unsubscribe = async (req: Request, res: Response) => {
   try {
     const user = req.user;
     const updatedSubscription =
-      await subscriptionService.unsubscribeFromCategory(req.body, user._id);
+      await subscriptionService.unsubscribeFromCategory(
+        user.userId,
+        req.body.category
+      );
 
     responseManager.success(res, {
       statusCode: 200,
@@ -41,7 +45,27 @@ const unsubscribe = async (req: Request, res: Response) => {
   }
 };
 
+const getUserSubscriptions = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const subscriptions = await subscriptionService.getUserSubscriptions(
+      user.userId
+    );
+
+    responseManager.success(res, {
+      statusCode: 200,
+      success: true,
+      message: "Subscriptions fetched successfully",
+      data: subscriptions,
+    });
+  } catch (error) {
+    logger.error(error);
+    responseManager.error(res, error as Error, 400);
+  }
+};
+
 export const subscriptionController = {
   updateSubscription,
   unsubscribe,
+  getUserSubscriptions,
 };
