@@ -7,9 +7,9 @@ export enum Category {
 }
 
 export interface INotification {
+  _id?: Types.ObjectId;
   title: String;
   message: String;
   category: Category;
-  createdBy: Types.ObjectId;
   createdAt: Date;
 }

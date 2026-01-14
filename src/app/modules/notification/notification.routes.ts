@@ -1,36 +1,21 @@
-// import { Router } from "express";
-// import { userController } from "./user.controller";
-// import { userRole } from "./user.interface";
-// import { roleBasedProtection } from "../../middleware/roleBasedProtection";
-// import { userCreateZodSchema } from "./user.validation";
-// import { validateSchema } from "../../middleware/zodValidate";
+import { Router } from "express";
 
-// export const notificationRoutes = Router();
+import { validateSchema } from "../../middleware/zodValidate";
+import { notificationController } from "./notification.controller";
 
-// notificationRoutes.post(
-//   "/register",
-//   validateSchema(userCreateZodSchema),
-//   userController.createUser
+export const notificationRoutes = Router();
+
+// Protected routes
+// userRoutes.get(
+//   "/profile",
+//   roleBasedProtection(...Object.values(Roles)),
+//   userController.getProfile
 // );
 
-// // Protected routes
-// // userRoutes.get(
-// //   "/profile",
-// //   roleBasedProtection(...Object.values(Roles)),
-// //   userController.getProfile
-// // );
-
-// // userRoutes.patch(
-// //   "/profile",
-// //   roleBasedProtection(...Object.values(Roles)),
-// //   profileUpload.single('image'),
-// //   validateSchema(userUpdateZodSchema),
-// //   userController.updateProfile
-// // );
-
-// // Admin routes
-// userRoutes.get(
-//   "/admin/all-users",
-//   roleBasedProtection(userRole.admin),
-//   userController.getAllUsers
+// userRoutes.patch(
+//   "/profile",
+//   roleBasedProtection(...Object.values(Roles)),
+//   profileUpload.single('image'),
+//   validateSchema(userUpdateZodSchema),
+//   userController.updateProfile
 // );

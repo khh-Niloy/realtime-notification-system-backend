@@ -17,11 +17,6 @@ const notificationSchema = new Schema<INotification>(
       type: String,
       enum: Object.values(Category),
     },
-    createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
   },
   {
     timestamps: true,
