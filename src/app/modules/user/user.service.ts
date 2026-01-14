@@ -1,9 +1,10 @@
 import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
-import { IUser, Roles } from "./user.interface";
+import { IUser, userRole } from "./user.interface";
 import { User } from "./user.model";
 import bcryptjs from "bcryptjs";
 import { jwtManagement } from "../../utils/jwtManagement";
+import AppError from "../../errors/AppError";
 
 const createUserService = async (playLoad: Partial<IUser>) => {
   const { email, password, ...rest } = playLoad;
@@ -12,7 +13,7 @@ const createUserService = async (playLoad: Partial<IUser>) => {
 
   const isUserExist = await User.findOne({ email: userEmail });
   if (isUserExist) {
-    throw new Error("User already exist");
+    throw new AppError(400, "User already exist");
   }
 
   const hashedPassword = await bcryptjs.hash(
@@ -27,7 +28,6 @@ const createUserService = async (playLoad: Partial<IUser>) => {
   };
 
   const newCreatedUser = await User.create(userData);
-  const userWithoutPassword = await User.findById(newCreatedUser._id);
 
   const jwtPayload = {
     userId: newCreatedUser._id,
@@ -38,7 +38,7 @@ const createUserService = async (playLoad: Partial<IUser>) => {
   const { accessToken, refreshToken } =
     jwtManagement.createAccessAndRefreshToken(jwtPayload);
 
-  return { accessToken, refreshToken, user: userWithoutPassword };
+  return { accessToken, refreshToken, user: newCreatedUser };
 };
 
 const getProfileService = async (userInfo: JwtPayload) => {
@@ -46,57 +46,57 @@ const getProfileService = async (userInfo: JwtPayload) => {
   return profile;
 };
 
-const updateProfileService = async (
-  userInfo: JwtPayload,
-  reqBody: Partial<IUser>
-) => {
-  const userId = userInfo.userId;
+// const updateProfileService = async (
+//   userInfo: JwtPayload,
+//   reqBody: Partial<IUser>
+// ) => {
+//   const userId = userInfo.userId;
 
-  const user = await User.findById(userId);
-  if (!user) {
-    throw new Error("User not found");
-  }
+//   const user = await User.findById(userId);
+//   if (!user) {
+//     throw new Error("User not found");
+//   }
 
-  const allowedFields = [
-    "name",
-    "image",
-    "phone",
-    "address",
-    "bio",
-    "language",
-  ];
+//   const allowedFields = [
+//     "name",
+//     "image",
+//     "phone",
+//     "address",
+//     "bio",
+//     "language",
+//   ];
 
-  if (user.role === Roles.GUIDE) {
-    allowedFields.push("expertise", "dailyRate");
-  } else if (user.role === Roles.TOURIST) {
-    allowedFields.push("travelPreferences");
-  }
+//   if (user.role === Roles.GUIDE) {
+//     allowedFields.push("expertise", "dailyRate");
+//   } else if (user.role === Roles.TOURIST) {
+//     allowedFields.push("travelPreferences");
+//   }
 
-  const updateData: Partial<IUser> = {};
+//   const updateData: Partial<IUser> = {};
 
-  for (const field of allowedFields) {
-    const fieldKey = field as keyof IUser;
-    if (reqBody[fieldKey] !== undefined) {
-      (updateData as any)[fieldKey] = reqBody[fieldKey];
-    }
-  }
+//   for (const field of allowedFields) {
+//     const fieldKey = field as keyof IUser;
+//     if (reqBody[fieldKey] !== undefined) {
+//       (updateData as any)[fieldKey] = reqBody[fieldKey];
+//     }
+//   }
 
-  const updatedProfile = await User.findByIdAndUpdate(userId, updateData, {
-    new: true,
-    runValidators: true,
-  });
+//   const updatedProfile = await User.findByIdAndUpdate(userId, updateData, {
+//     new: true,
+//     runValidators: true,
+//   });
 
-  return updatedProfile;
-};
+//   return updatedProfile;
+// };
 
 const getAllUsersService = async () => {
-    const users = await User.find({ isDeleted: false }).sort({ createdAt: -1 });
-    return users;
+  const users = await User.find({ isDeleted: false }).sort({ createdAt: -1 });
+  return users;
 };
 
 export const userServices = {
   createUserService,
   getProfileService,
-  updateProfileService,
+  // updateProfileService,
   getAllUsersService,
 };

@@ -13,4 +13,4 @@ authRoutes.get(
   authController.getMe
 );
 
-authRoutes.get("/logout", authController.userLogOut);
+authRoutes.post("/logout", authController.userLogOut);

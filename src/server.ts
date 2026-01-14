@@ -3,6 +3,7 @@ import { envVars } from "./app/config/env";
 import { connectMongoose } from "./app/lib/connectMongoose";
 import { logger } from "./app/utils/logger";
 import { createServer } from "http";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 export const httpServer = createServer(app);
 
@@ -19,6 +20,7 @@ const startServer = async () => {
 
 (async () => {
   await startServer();
+  await seedSuperAdmin();
 })();
 
 const graceFullyShutDown = () => {

@@ -12,9 +12,6 @@ export const userCreateZodSchema = z.object({
     .string()
     .min(6, "Password must be at least 6 characters")
     .max(128, "Password must be less than 128 characters"),
-  role: z.nativeEnum(userRole, {
-    message: "Invalid role. Must be admin or user",
-  }),
 });
 
 export const userUpdateZodSchema = z.object({

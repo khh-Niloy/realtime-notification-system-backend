@@ -4,6 +4,7 @@ import cors from "cors";
 import { notFound } from "./app/middleware/notFound";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { envVars } from "./app/config/env";
+import { routes } from "./routes";
 
 export const app = express();
 
@@ -16,7 +17,7 @@ app.use(
   })
 );
 
-// app.use("/api/v1", routes);
+app.use("/api/v1", routes);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
