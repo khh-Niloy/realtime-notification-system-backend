@@ -7,12 +7,12 @@ export const notificationRoutes = Router();
 
 notificationRoutes.get(
   "/",
-  roleBasedProtection(...Object.values(userRole)),
+  roleBasedProtection(userRole.admin),
   notificationController.getAllNotifications
 );
 notificationRoutes.get(
   "/:id",
-  roleBasedProtection(...Object.values(userRole)),
+  roleBasedProtection(userRole.admin),
   notificationController.getNotificationById
 );
 notificationRoutes.delete(

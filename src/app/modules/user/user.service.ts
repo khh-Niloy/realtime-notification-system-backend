@@ -41,62 +41,6 @@ const createUserService = async (playLoad: Partial<IUser>) => {
   return { accessToken, refreshToken, user: newCreatedUser };
 };
 
-const getProfileService = async (userInfo: JwtPayload) => {
-  const profile = await User.findById(userInfo.userId);
-  return profile;
-};
-
-// const updateProfileService = async (
-//   userInfo: JwtPayload,
-//   reqBody: Partial<IUser>
-// ) => {
-//   const userId = userInfo.userId;
-
-//   const user = await User.findById(userId);
-//   if (!user) {
-//     throw new Error("User not found");
-//   }
-
-//   const allowedFields = [
-//     "name",
-//     "image",
-//     "phone",
-//     "address",
-//     "bio",
-//     "language",
-//   ];
-
-//   if (user.role === Roles.GUIDE) {
-//     allowedFields.push("expertise", "dailyRate");
-//   } else if (user.role === Roles.TOURIST) {
-//     allowedFields.push("travelPreferences");
-//   }
-
-//   const updateData: Partial<IUser> = {};
-
-//   for (const field of allowedFields) {
-//     const fieldKey = field as keyof IUser;
-//     if (reqBody[fieldKey] !== undefined) {
-//       (updateData as any)[fieldKey] = reqBody[fieldKey];
-//     }
-//   }
-
-//   const updatedProfile = await User.findByIdAndUpdate(userId, updateData, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   return updatedProfile;
-// };
-
-const getAllUsersService = async () => {
-  const users = await User.find({ isDeleted: false }).sort({ createdAt: -1 });
-  return users;
-};
-
 export const userServices = {
   createUserService,
-  getProfileService,
-  // updateProfileService,
-  getAllUsersService,
 };

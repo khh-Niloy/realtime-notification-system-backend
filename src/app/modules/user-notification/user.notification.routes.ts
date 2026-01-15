@@ -10,6 +10,7 @@ userNotificationRoutes.get(
   roleBasedProtection(...Object.values(userRole)),
   userNotificationController.getUserNotifications
 );
+
 userNotificationRoutes.patch(
   "/:id",
   roleBasedProtection(...Object.values(userRole)),

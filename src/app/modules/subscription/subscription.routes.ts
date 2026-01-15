@@ -10,11 +10,13 @@ subscriptionRoutes.patch(
   roleBasedProtection(...Object.values(userRole)),
   subscriptionController.updateSubscription
 );
+
 subscriptionRoutes.patch(
   "/unsubscribe",
   roleBasedProtection(...Object.values(userRole)),
   subscriptionController.unsubscribe
 );
+
 subscriptionRoutes.get(
   "/",
   roleBasedProtection(...Object.values(userRole)),

@@ -14,7 +14,7 @@ const getUserNotificationsService = async (user: any) => {
   })
     .populate("notificationId")
     .sort({ createdAt: -1 });
-  console.log(notifications);
+  // console.log(notifications);
   return notifications;
 };
 

@@ -28,7 +28,6 @@ const getAllNotifications = async (req: Request, res: Response) => {
   try {
     const notifications =
       await notificationServices.getAllNotificationsService();
-    console.log(notifications);
     return responseManager.success(res, {
       statusCode: 200,
       success: true,
