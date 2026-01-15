@@ -15,7 +15,7 @@ export const initWebsocket = (httpServer: any) => {
 
   websocketServer.on("connect", (socket) => {
     socket.on("register", async (userId: string) => {
-      console.log("register");
+      // console.log("register");
       try {
         const user = await User.findById(userId);
         if (user?.subscriptions) {
@@ -69,7 +69,7 @@ export const initWebsocket = (httpServer: any) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("User disconnected");
+      // console.log("User disconnected");
     });
   });
 };

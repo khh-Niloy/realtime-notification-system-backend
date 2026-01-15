@@ -6,7 +6,7 @@ import { subscriptionService } from "./subscription.services";
 const updateSubscription = async (req: Request, res: Response) => {
   try {
     const user = req.user;
-    console.log(user);
+    // console.log(user);
     const updatedSubscription = await subscriptionService.subscribeToCategory(
       user.userId,
       req.body.category
