@@ -16,9 +16,7 @@ app.use(
     credentials: true,
   })
 );
-
 app.use("/api/v1", routes);
-
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "welcome to realtime notification system backend",
