@@ -4,6 +4,8 @@ export enum Category {
   system = "system",
   task = "task",
   announcement = "announcement",
+  learning = "learning",
+  problem = "problem",
 }
 
 export interface INotification {
