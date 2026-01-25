@@ -13,6 +13,8 @@ export enum ISubscriptions {
   system = "system",
   task = "task",
   announcement = "announcement",
+  learning = "learning",
+  problem = "problem",
 }
 
 export interface IUser {
